@@ -1,7 +1,29 @@
 {
+  "name": "sandwich-attack-detector",
+  "version": "1.0.0",
+  "description": "A tool to detect potential sandwich attacks on Solana DEX transactions",
+  "main": "src/js/sandwich-attack-detector.js",
+  "type": "module",
+  "scripts": {
+    "start": "http-server -o /public",
+    "dev": "http-server -o /public -c-1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "solana",
+    "blockchain",
+    "sandwich-attack",
+    "defi",
+    "security"
+  ],
+  "author": "",
+  "license": "MIT",
   "dependencies": {
     "@jup-ag/referral-sdk": "^0.2.0",
     "@solana/spl-token-registry": "^0.2.4574",
     "@solana/web3.js": "^1.98.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
   }
 }

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sandwich Attack Detector for Solana</title>
+  <meta name="description" content="Monitor your Solana transactions for potential sandwich attacks and protect your trades">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Sandwich Attack Detector</h1>
+      <button id="connect-wallet" class="btn-primary">Connect Wallet</button>
+    </header>
+
+    <div id="status">Initializing...</div>
+
+    <div class="card">
+      <div class="card-header">Control Panel</div>
+      <div class="flex space-between mb-20">
+        <button id="start-monitoring" class="btn-primary" disabled>Start Monitoring</button>
+        <button id="stop-monitoring" class="btn-danger" disabled>Stop Monitoring</button>
+      </div>
+      
+      <div class="card-header">Settings</div>
+      <div class="form-group">
+        <label for="slippage">Slippage Threshold (%)</label>
+        <input type="range" id="slippage" min="0.1" max="5" step="0.1" value="1.0">
+        <span id="slippage-value">1.0%</span>
+      </div>
+      
+      <div class="form-group">
+        <label for="price-impact">Price Impact Warning Threshold (%)</label>
+        <input type="range" id="price-impact" min="0.1" max="3" step="0.1" value="0.5">
+        <span id="price-impact-value">0.5%</span>
+      </div>
+      
+      <div class="form-group">
+        <label for="pool-activity">Pool Activity Threshold (# of transactions)</label>
+        <input type="number" id="pool-activity" min="1" max="10" value="3">
+      </div>
+      
+      <div class="form-group">
+        <label for="time-window">Time Window (seconds)</label>
+        <input type="number" id="time-window" min="1" max="30" value="5">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Alerts</div>
+      <div id="alerts-container">
+        <!-- Alerts will be added here dynamically -->
+        <div class="alert alert-info">
+          Connect your wallet and start monitoring to detect potential sandwich attacks.
+          <button type="button" class="close-alert">&times;</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">What are Sandwich Attacks?</div>
+      <p>Sandwich attacks occur when malicious actors front-run and back-run user transactions in DeFi pools:</p>
+      <ol>
+        <li>A trader submits a transaction to buy a token</li>
+        <li>An attacker front-runs with a buy transaction</li>
+        <li>The trader's transaction executes at a worse price</li>
+        <li>The attacker back-runs with a sell transaction, profiting from the price impact</li>
+      </ol>
+      <p>This tool helps detect conditions that may indicate a sandwich attack is occurring on your transactions.</p>
+    </div>
+  </div>
+
+  <script type="module">
+    // Update range input display values
+    document.getElementById('slippage').addEventListener('input', function() {
+      document.getElementById('slippage-value').textContent = this.value + '%';
+    });
+    
+    document.getElementById('price-impact').addEventListener('input', function() {
+      document.getElementById('price-impact-value').textContent = this.value + '%';
+    });
+  </script>
+  
+  <!-- Import the sandwich attack detector -->
+  <script type="module" src="../src/js/sandwich-attack-detector.js"></script>
+</body>
+</html> 
