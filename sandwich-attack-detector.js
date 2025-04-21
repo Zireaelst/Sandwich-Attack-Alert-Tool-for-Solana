@@ -58,20 +58,70 @@ async function initialize() {
   }
 }
 
-// Connect wallet function
+// Check if Phantom wallet is installed
+function isPhantomInstalled() {
+  return window.phantom?.solana?.isPhantom;
+}
+
+// Connect Phantom wallet function - improved implementation
 async function connectWallet() {
   try {
-    if (window.solana) {
-      const response = await window.solana.connect();
-      userWallet = response.publicKey;
-      connectWalletBtn.textContent = `Connected: ${userWallet.toString().substring(0, 4)}...${userWallet.toString().substring(userWallet.toString().length - 4)}`;
-      statusDisplay.textContent = 'Wallet connected';
-    } else {
-      throw new Error('Solana wallet not found. Please install Phantom or another Solana wallet extension.');
+    // Check if Phantom is installed
+    if (!isPhantomInstalled()) {
+      throw new Error('Phantom wallet not found. Please install the Phantom extension.');
     }
+
+    // Request connection to the user's Phantom wallet
+    const provider = window.phantom.solana;
+    
+    // Try to connect if not already connected
+    const response = await provider.connect();
+    userWallet = new PublicKey(response.publicKey.toString());
+    
+    // Update UI to show connected state
+    connectWalletBtn.textContent = `Connected: ${userWallet.toString().substring(0, 4)}...${userWallet.toString().substring(userWallet.toString().length - 4)}`;
+    statusDisplay.textContent = 'Wallet connected';
+    createAlert('success', 'Phantom wallet connected successfully!');
+    
+    // Enable the start monitoring button
+    startMonitoringBtn.disabled = false;
+    
+    // Set up disconnect event listener
+    provider.on('disconnect', () => {
+      userWallet = null;
+      connectWalletBtn.textContent = 'Connect Wallet';
+      statusDisplay.textContent = 'Wallet disconnected';
+      startMonitoringBtn.disabled = true;
+      if (isMonitoring) {
+        stopMonitoring();
+      }
+      createAlert('warning', 'Wallet disconnected');
+    });
+    
+    // Set up account change event listener
+    provider.on('accountChanged', (publicKey) => {
+      if (publicKey) {
+        userWallet = new PublicKey(publicKey.toString());
+        connectWalletBtn.textContent = `Connected: ${userWallet.toString().substring(0, 4)}...${userWallet.toString().substring(userWallet.toString().length - 4)}`;
+        statusDisplay.textContent = 'Wallet account changed';
+        createAlert('info', 'Wallet account changed');
+      } else {
+        // Phantom sometimes gives null when disconnecting
+        userWallet = null;
+        connectWalletBtn.textContent = 'Connect Wallet';
+        statusDisplay.textContent = 'Wallet disconnected';
+        startMonitoringBtn.disabled = true;
+        if (isMonitoring) {
+          stopMonitoring();
+        }
+        createAlert('warning', 'Wallet disconnected');
+      }
+    });
+    
   } catch (error) {
-    statusDisplay.textContent = `Wallet connection error: ${error.message}`;
     console.error('Wallet connection error:', error);
+    statusDisplay.textContent = `Wallet connection error: ${error.message}`;
+    createAlert('danger', `Failed to connect wallet: ${error.message}`);
   }
 }
 
@@ -92,6 +142,8 @@ async function startMonitoring() {
   
   // Start monitoring transactions in user's account
   monitorUserTransactions();
+  
+  createAlert('info', 'Monitoring active. You will be alerted of potential sandwich attacks.');
 }
 
 // Stop monitoring
@@ -100,6 +152,7 @@ function stopMonitoring() {
   statusDisplay.textContent = 'Monitoring stopped';
   startMonitoringBtn.disabled = false;
   stopMonitoringBtn.disabled = true;
+  createAlert('info', 'Monitoring stopped');
 }
 
 // Monitor mempool for pending transactions
@@ -302,11 +355,27 @@ function createAlert(type, message) {
   }, 30000);
 }
 
+// Update settings from UI
+function updateSettings() {
+  config.slippageThreshold = parseFloat(document.getElementById('slippage').value);
+  config.priceImpactWarningThreshold = parseFloat(document.getElementById('price-impact').value);
+  config.poolActivityThreshold = parseInt(document.getElementById('pool-activity').value);
+  config.timeWindow = parseInt(document.getElementById('time-window').value);
+  
+  createAlert('success', 'Settings updated');
+}
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
   connectWalletBtn.addEventListener('click', connectWallet);
   startMonitoringBtn.addEventListener('click', startMonitoring);
   stopMonitoringBtn.addEventListener('click', stopMonitoring);
+  
+  // Add listeners for settings updates
+  document.getElementById('slippage').addEventListener('change', updateSettings);
+  document.getElementById('price-impact').addEventListener('change', updateSettings);
+  document.getElementById('pool-activity').addEventListener('change', updateSettings);
+  document.getElementById('time-window').addEventListener('change', updateSettings);
   
   // Initialize the app
   initialize();
@@ -317,5 +386,6 @@ export {
   connectWallet,
   startMonitoring,
   stopMonitoring,
-  assessSandwichRisk
+  assessSandwichRisk,
+  isPhantomInstalled
 };
