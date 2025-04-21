@@ -143,7 +143,7 @@
     function disconnectWallet() {
       walletPublicKey = null;
       connectWalletBtn.textContent = "Connect Wallet";
-      statusDisplay.textContent = "Wallet disconnected";
+      statusDisplay.innerHTML = '<span class="status-disconnected">Wallet disconnected</span>';
       walletInfoDiv.innerHTML = "<p>Not connected</p>";
       startMonitoringBtn.disabled = true;
       stopMonitoringBtn.disabled = true;
@@ -166,6 +166,7 @@
 
         statusDisplay.textContent = "Connecting to Phantom...";
         connectWalletBtn.textContent = "Connecting...";
+        connectWalletBtn.disabled = true;
         
         // Request connection to Phantom wallet
         const provider = window.phantom.solana;
@@ -177,7 +178,8 @@
           // Update UI to show connected state
           const formattedKey = formatPublicKey(walletPublicKey);
           connectWalletBtn.textContent = `Connected: ${formattedKey}`;
-          statusDisplay.textContent = 'Wallet connected';
+          connectWalletBtn.disabled = false;
+          statusDisplay.innerHTML = '<span class="status-connected">Wallet connected</span>';
           
           // Display wallet info
           walletInfoDiv.innerHTML = `
@@ -220,7 +222,7 @@
                 disconnectWallet();
               });
               
-              statusDisplay.textContent = 'Wallet account changed';
+              statusDisplay.innerHTML = '<span class="status-connected">Wallet account changed</span>';
               createAlert('info', 'Wallet account changed');
             } else {
               disconnectWallet();
@@ -231,12 +233,14 @@
           // User rejected the connection request
           statusDisplay.textContent = "Connection rejected";
           connectWalletBtn.textContent = "Connect Wallet";
+          connectWalletBtn.disabled = false;
           createAlert('warning', 'Wallet connection was rejected by the user');
         }
         
       } catch (error) {
         statusDisplay.textContent = `Wallet connection error: ${error.message}`;
         connectWalletBtn.textContent = "Connect Wallet";
+        connectWalletBtn.disabled = false;
         createAlert('danger', `Failed to connect wallet: ${error.message}`);
         console.error('Wallet connection error:', error);
       }
@@ -250,7 +254,7 @@
       }
       
       isMonitoring = true;
-      statusDisplay.textContent = 'Monitoring active';
+      statusDisplay.innerHTML = '<span class="status-monitoring">Monitoring active</span>';
       startMonitoringBtn.disabled = true;
       stopMonitoringBtn.disabled = false;
       
@@ -267,7 +271,7 @@
     // Stop monitoring
     function stopMonitoring() {
       isMonitoring = false;
-      statusDisplay.textContent = 'Monitoring stopped';
+      statusDisplay.innerHTML = 'Monitoring stopped';
       startMonitoringBtn.disabled = false;
       stopMonitoringBtn.disabled = true;
       createAlert('info', 'Monitoring stopped');
