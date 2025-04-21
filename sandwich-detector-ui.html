@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solana Sandwich Attack Detector</title>
+  <style>
+    :root {
+      --primary: #9945FF;
+      --secondary: #14F195;
+      --warning: #FFB800;
+      --danger: #FF6B6B;
+      --info: #2EBAC6;
+      --success: #14F195;
+      --background: #121212;
+      --text: #FFFFFF;
+      --card-bg: #1E1E1E;
+      --border: #333333;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    h1 {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    
+    .subtitle {
+      color: #AAA;
+      font-size: 1.1rem;
+    }
+    
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-title {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .card-title svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    button {
+      background: linear-gradient(to right, var(--primary), #7B61FF);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    
+    button:disabled {
+      background: #555;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    
+    button svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    .button-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .status {
+      display: inline-block;
+      padding: 0.4rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background-color: #333;
+      margin-top: 1rem;
+    }
+    
+    .alert {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      position: relative;
+      border-left: 4px solid;
+    }
+    
+    .alert-danger {
+      background-color: rgba(255, 107, 107, 0.1);
+      border-left-color: var(--danger);
+    }
+    
+    .alert-warning {
+      background-color: rgba(255, 184, 0, 0.1);
+      border-left-color: var(--warning);
+    }
+    
+    .alert-info {
+      background-color: rgba(46, 186, 198, 0.1);
+      border-left-color: var(--info);
+    }
+    
+    .alert-success {
+      background-color: rgba(20, 241, 149, 0.1);
+      border-left-color: var(--success);
+    }
+    
+    .close-alert {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: none;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 0.2rem 0.5rem;
+    }
+    
+    .close-alert:hover {
+      color: white;
+    }
+    
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .setting-item {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .setting-item label {
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+      color: #AAA;
+    }
+    
+    .setting-item input {
+      background-color: #2A2A2A;
+      border: 1px solid var(--border);
+      padding: 0.5rem;
+      border-radius: 6px;
+      color: white;
+      font-size: 0.9rem;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 2rem;
+      color: #666;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Solana Sandwich Attack Detector</h1>
+      <p class="subtitle">Protect your DeFi transactions from MEV exploitation</p>
+    </header>
+    
+    <div class="card">
+      <h2 class="card-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        Protection Dashboard
+      </h2>
+      
+      <div class="button-row">
+        <button id="connect-wallet">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2"/>
+            <line x1="2" y1="10" x2="22" y2="10"/>
+          </svg>
+          Connect Wallet
+        </button>
+        
+        <button id="start-monitoring" disabled>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+          </svg>
+          Start Monitoring
+        </button>
+        
+        <button id="stop-monitoring" disabled>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="6" width="12" height="12" rx="2"/>
+          </svg>
+          Stop
+        </button>
+      </div>
+      
+      <div id="status" class="status">Status: Ready to connect</div>
+    </div>
+    
+    <div class="card">
+      <h2 class="card-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        Alerts & Notifications
+      </h2>
+      
+      <div id="alerts-container">
+        <!-- Alerts will be added here dynamically -->
+        <div class="alert alert-info">
+          Connect your wallet and start monitoring to detect potential sandwich attacks
+          <button type="button" class="close-alert">&times;</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2 class="card-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        Settings
+      </h2>
+      
+      <div class="settings-grid">
+        <div class="setting-item">
+          <label for="slippage">Slippage Threshold (%)</label>
+          <input type="number" id="slippage" value="1.0" min="0.1" max="10" step="0.1">
+        </div>
+        
+        <div class="setting-item">
+          <label for="price-impact">Price Impact Warning (%)</label>
+          <input type="number" id="price-impact" value="0.5" min="0.1" max="5" step="0.1">
+        </div>
+        
+        <div class="setting-item">
+          <label for="pool-activity">Pool Activity Threshold</label>
+          <input type="number" id="pool-activity" value="3" min="1" max="10" step="1">
+        </div>
+        
+        <div class="setting-item">
+          <label for="time-window">Time Window (seconds)</label>
+          <input type="number" id="time-window" value="5" min="1" max="30" step="1">
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>Sandwich Attack Detector Tool © 2025 | Protecting Solana DeFi users from MEV exploitation</p>
+    </div>
+  </div>
+  
+  <script type="module" src="sandwich-detector.js"></script>
+</body>
+</html>
