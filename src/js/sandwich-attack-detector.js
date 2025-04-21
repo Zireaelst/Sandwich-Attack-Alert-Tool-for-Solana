@@ -4,7 +4,10 @@
 import { Connection, PublicKey, TransactionMessage, VersionedTransaction } from '@solana/web3.js';
 import { Jupiter } from '@jup-ag/core';
 import { TokenListProvider } from '@solana/spl-token-registry';
-import { config, dexProgramIds } from './config.js';
+import { config, dexProgramIds } from '/src/js/config.js';
+
+console.log('Sandwich Attack Detector script loaded');
+console.log('Config loaded:', config);
 
 // Initialize connection
 const connection = new Connection(config.rpcEndpoint);
@@ -19,21 +22,34 @@ let connectWalletBtn, startMonitoringBtn, stopMonitoringBtn, alertsContainer, st
 
 // Initialize DOM elements when they're available
 function initDomElements() {
+  console.log('Initializing DOM elements');
   connectWalletBtn = document.getElementById('connect-wallet');
   startMonitoringBtn = document.getElementById('start-monitoring');
   stopMonitoringBtn = document.getElementById('stop-monitoring');
   alertsContainer = document.getElementById('alerts-container');
   statusDisplay = document.getElementById('status');
+  
+  console.log('DOM elements initialized:', {
+    connectWalletBtn: !!connectWalletBtn,
+    startMonitoringBtn: !!startMonitoringBtn,
+    stopMonitoringBtn: !!stopMonitoringBtn,
+    alertsContainer: !!alertsContainer,
+    statusDisplay: !!statusDisplay
+  });
 }
 
 // Initialize Jupiter and token list
 async function initialize() {
+  console.log('Starting initialization');
   try {
     if (statusDisplay) {
       statusDisplay.textContent = 'Initializing...';
+    } else {
+      console.error('Status display element not found');
     }
     
     // Load token list
+    console.log('Loading token list');
     const tokenListProvider = new TokenListProvider();
     const tokenList = await tokenListProvider.resolve();
     const tokens = tokenList.filterByClusterSlug('mainnet-beta').getList();
@@ -41,18 +57,23 @@ async function initialize() {
     tokens.forEach(token => {
       tokenMap.set(token.address, token);
     });
+    console.log(`Loaded ${tokenMap.size} tokens`);
     
     // Initialize Jupiter
+    console.log('Initializing Jupiter');
     jupiter = await Jupiter.load({
       connection,
       cluster: 'mainnet-beta',
     });
+    console.log('Jupiter initialized');
     
     if (statusDisplay && startMonitoringBtn) {
       statusDisplay.textContent = 'Initialized successfully';
       startMonitoringBtn.disabled = false;
     }
+    console.log('Initialization complete');
   } catch (error) {
+    console.error('Initialization error details:', error);
     if (statusDisplay) {
       statusDisplay.textContent = `Initialization error: ${error.message}`;
     }

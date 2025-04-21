@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Test</title>
+</head>
+<body>
+  <h1>JavaScript Test Page</h1>
+  <p>Check the browser console for output</p>
+
+  <script type="module">
+    console.log('Test script running');
+    
+    // Import dependencies at the top level
+    import { Connection } from '@solana/web3.js';
+    import { config } from '/src/js/config.js';
+    
+    try {
+      console.log('Solana web3.js imported successfully');
+      
+      // Test connection
+      const conn = new Connection('https://api.mainnet-beta.solana.com');
+      console.log('Connection created:', conn);
+      
+      console.log('Config imported:', config);
+    } catch (error) {
+      console.error('Import error:', error);
+    }
+  </script>
+</body>
+</html> 

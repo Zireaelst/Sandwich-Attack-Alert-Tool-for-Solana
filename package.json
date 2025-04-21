@@ -5,8 +5,8 @@
   "main": "src/js/sandwich-attack-detector.js",
   "type": "module",
   "scripts": {
-    "start": "http-server -o /public",
-    "dev": "http-server -o /public -c-1",
+    "start": "http-server . -o",
+    "dev": "http-server . -c-1 -o",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

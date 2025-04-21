@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sandwich Attack Detector for Solana</title>
-  <meta name="description" content="Monitor your Solana transactions for potential sandwich attacks and protect your trades">
+  <title>Sandwich Attack Detector (Simple Version)</title>
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Additional styles if needed */
+  </style>
 </head>
 <body>
   <div class="container">
@@ -17,7 +17,7 @@
       <button id="connect-wallet" class="btn-primary">Connect Wallet</button>
     </header>
 
-    <div id="status">Ready to connect</div>
+    <div id="status">Ready</div>
 
     <div class="card">
       <div class="card-header">Control Panel</div>
@@ -60,9 +60,8 @@
     <div class="card">
       <div class="card-header">Alerts</div>
       <div id="alerts-container">
-        <!-- Alerts will be added here dynamically -->
         <div class="alert alert-info">
-          Connect your wallet and start monitoring to detect potential sandwich attacks.
+          Connect your Phantom wallet to start monitoring for sandwich attacks.
           <button type="button" class="close-alert">&times;</button>
         </div>
       </div>
