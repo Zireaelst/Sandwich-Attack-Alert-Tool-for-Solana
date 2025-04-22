@@ -32,6 +32,8 @@ These attacks are particularly common on high-volume DEXes with low liquidity po
 1. **Clone the Repository**
 ```bash
 git clone https://github.com/Zireaelst/Sandwich-Attack-Alert-Tool-for-Solana
+```
+```bash
 cd sandwich-attack-detector
 ```
 ```bash
