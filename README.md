@@ -29,6 +29,8 @@ These attacks are particularly common on high-volume DEXes with low liquidity po
 
 ## 🚀 Installation & Setup
 
+> ⚠️ **Prerequisite:** This project requires [Node.js](https://nodejs.org/) to be installed (Make sure to check the box that says "Automatically install the necessary tools" during installation) and properly functioning on your system.
+
 1. **Clone the Repository**
 ```bash
 git clone https://github.com/Zireaelst/Sandwich-Attack-Alert-Tool-for-Solana
