@@ -1,8 +1,11 @@
-
-
 # Sandwich Attack Detector for Solana
 
 A real-time monitoring tool designed to detect and alert users about potential sandwich attacks on decentralized exchanges (DEXes) within the Solana ecosystem.
+
+## 🎯 Hackathon Context
+
+This project was developed as part of the [Validator.com Sandwich Attack Shield Challenge](https://earn.superteam.fun/listing/validator-com-sandwich-attack-shield-challenge/) on Superteam Earn.  
+The goal is to detect and mitigate sandwich attacks on Solana decentralized exchanges, while educating users and developers about protective mechanisms.
 
 ## 📖 What Are Sandwich Attacks?
 
