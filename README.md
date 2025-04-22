@@ -33,10 +33,12 @@ These attacks are particularly common on high-volume DEXes with low liquidity po
 ```bash
 git clone https://github.com/Zireaelst/Sandwich-Attack-Alert-Tool-for-Solana
 cd sandwich-attack-detector
-
+```
+```bash
 2. Install Dependencies
 npm install
-
+```
+```bash
 3. Launch the App
 npm run dev
 ```
