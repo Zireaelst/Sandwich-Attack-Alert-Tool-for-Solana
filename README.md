@@ -80,6 +80,8 @@ sandwich-attack-detector/
 │   │   └── sandwich-attack-detector.js  # Main application code
 │   └── components/       # Component files (future expansion)
 ├── tests/                # Test files (future expansion)
+├── docs/ 
+│   └── smart-contract-template.rs    # Rust smart contract template
 ├── package.json          # Project metadata and dependencies
 └── README.md             # Project documentation
 ```
