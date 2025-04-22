@@ -1,8 +1,13 @@
 # Sandwich Attack Detector for Solana
 
-A tool for monitoring and detecting potential sandwich attacks on Solana DEX transactions.
+A real-time monitoring tool designed to detect and alert users about potential sandwich attacks on decentralized exchanges (DEXes) within the Solana ecosystem.
 
-## What are Sandwich Attacks?
+## 🎯 Hackathon Context
+
+This project was developed as part of the [Validator.com Sandwich Attack Shield Challenge](https://earn.superteam.fun/listing/validator-com-sandwich-attack-shield-challenge/) on Superteam Earn.  
+The goal is to detect and mitigate sandwich attacks on Solana decentralized exchanges, while educating users and developers about protective mechanisms.
+
+## 📖 What Are Sandwich Attacks?
 
 Sandwich attacks are a common exploit in decentralized finance (DeFi) where malicious actors target pending transactions in the mempool:
 
@@ -15,44 +20,53 @@ Sandwich attacks are a common exploit in decentralized finance (DeFi) where mali
 
 These attacks are particularly common on high-volume DEXes with low liquidity pools.
 
-## Features
+## ✨ Features
 
-- Connect to Phantom wallet
-- Monitor transactions for potential sandwich attack conditions
-- Alert users when suspicious transaction patterns are detected
-- Configurable thresholds for detection sensitivity
-- Educational information about sandwich attacks
+- 🔗 **Wallet Integration:** Connect easily with your Phantom wallet.
+- 🚨 **Real-time Monitoring:** Instantly detect potential sandwich attack scenarios.
+- ⚙️ **Customizable Sensitivity:** Set configurable thresholds to suit your trading strategy.
+- 📚 **Educational Resources:** Learn about sandwich attacks directly within the tool.
 
-## Installation
+## 🚀 Installation & Setup
 
+> ⚠️ **Prerequisite:** This project requires [Node.js](https://nodejs.org/) to be installed (Make sure to check the box that says "Automatically install the necessary tools" during installation) and properly functioning on your system.
+
+1. **Clone the Repository**
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/sandwich-attack-detector.git
+git clone https://github.com/Zireaelst/Sandwich-Attack-Alert-Tool-for-Solana
+```
+```bash
 cd sandwich-attack-detector
-
-# Install dependencies
+```
+```bash
+2. Install Dependencies
 npm install
-
-# Start the development server
+```
+```bash
+3. Launch the App
 npm run dev
 ```
 
-## Usage
+## 🛠️ Usage
 
-1. Open your browser and navigate to the application
-2. Connect your Phantom wallet
-3. Configure detection thresholds (optional)
-4. Click "Start Monitoring"
-5. The tool will alert you when it detects potential sandwich attack conditions
+1. Launch your browser and navigate to `http://localhost:8080`.
+2. Connect your Phantom wallet by clicking "Connect Wallet".
+3. Adjust detection thresholds (optional, recommended).
+4. Press "Start Monitoring".
+5. Receive alerts when suspicious transaction patterns indicating a sandwich attack are detected.
 
-## Configuration Options
+## ⚙️ Configuration Options
 
-- **Slippage Threshold**: Maximum tolerated slippage percentage
-- **Price Impact Warning Threshold**: Minimum price impact to trigger warnings
-- **Pool Activity Threshold**: Number of transactions in the same pool to consider suspicious
-- **Time Window**: Time period (in seconds) to monitor for suspicious activity
+- **Slippage Threshold (default: 1%)** – Maximum allowed slippage.
+- **Price Impact Warning Threshold (default: 0.5%)** – Minimum price impact that triggers an alert.
+- **Pool Activity Threshold (default: 3 transactions)** – Minimum number of transactions in the same pool considered suspicious.
+- **Time Window (default: 60 seconds)** – Monitoring period to detect suspicious activities.
 
-## Project Structure
+
+## 📂 Project Structure
+
+A quick overview of key files and directories:
+
 
 ```
 sandwich-attack-detector/
@@ -66,26 +80,28 @@ sandwich-attack-detector/
 │   │   └── sandwich-attack-detector.js  # Main application code
 │   └── components/       # Component files (future expansion)
 ├── tests/                # Test files (future expansion)
+├── docs/ 
+│   └── smart-contract-template.rs    # Rust smart contract template
 ├── package.json          # Project metadata and dependencies
 └── README.md             # Project documentation
 ```
 
-## Future Improvements
+## 🚧 Future Improvements
 
-- Add support for more wallets beyond Phantom
-- Implement WebSocket connection for real-time mempool monitoring
-- Develop a browser extension version
-- Create a notification system (email, push, etc.)
-- Add historical analysis of past transactions
+- 🔌 Add integration support for more Solana wallets (Solflare, Sollet).
+- ⚡ Implement WebSocket connections for instantaneous transaction monitoring.
+- 🌐 Develop a browser extension for easier user interaction.
+- 📢 Implement real-time notifications (email, SMS, push notifications).
+- 📈 Include historical analytics to assess past transaction risks.
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+## ⚠️ Disclaimer
+
+This tool helps detect potential sandwich attacks but **cannot prevent** attacks from occurring. Always exercise caution during transactions on decentralized exchanges and consider additional protective measures such as private RPC endpoints, hardware wallets, or professional security audits for high-value trades.
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Disclaimer
-
-This tool provides detection capabilities but cannot prevent sandwich attacks from occurring. Always use caution when trading on DEXes and consider using private RPC endpoints or other protection mechanisms for high-value transactions.
